@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  postgres_day_elapsed:
+    container_name: postgres_day_elapsed
+    image: "postgres:15-alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "root"
+      POSTGRES_DB: postgres
+    volumes:
+      - type: volume
+        source: postgres_volume
+        target: "/var/lib/postgresql/data"
+        read_only: false
+    networks:
+      - project_network
+
+volumes:
+  postgres_volume:
+    external: true
+    name: postgres-volume
+
+networks:
+  project_network:
+    name: project_network
+    driver: bridge
