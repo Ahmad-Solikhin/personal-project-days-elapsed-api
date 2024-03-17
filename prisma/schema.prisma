@@ -12,3 +12,46 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Holidays {
+  id           Int      @id @default(autoincrement()) @db.Integer
+  holiday_date DateTime @db.Date
+  describe     String   @db.VarChar(255)
+
+  @@map("holidays")
+}
+
+model Users {
+  id                String           @id @db.VarChar(255)
+  username          String           @db.VarChar(255)
+  name              String?          @db.VarChar(255)
+  email             String?          @db.VarChar(255)
+  password          String           @db.VarChar(255)
+  refresh_token     String?          @db.VarChar(500)
+  user_days_elapsed UserDaysElapsed?
+
+  @@map("users")
+}
+
+model UserDaysElapsed {
+  id                   String               @id @db.VarChar(255)
+  start_date           DateTime?            @db.Date
+  end_date             DateTime?            @db.Date
+  total_days           Int                  @default(0) @db.Integer
+  elapsed_days         Int                  @default(0) @db.Integer
+  user_id              String               @unique @db.VarChar(255)
+  user                 Users                @relation(fields: [user_id], references: [id])
+  history_days_elapsed HistoryDaysElapsed[]
+
+  @@map("user_days_elapsed")
+}
+
+model HistoryDaysElapsed {
+  id                   String          @id @db.VarChar(255)
+  memo                 String?         @db.VarChar(500)
+  history_date         DateTime        @db.Date
+  user_days_elapsed_id String          @db.VarChar(255)
+  user_days_elapsed    UserDaysElapsed @relation(fields: [user_days_elapsed_id], references: [id])
+
+  @@map("history_days_elapsed")
+}
