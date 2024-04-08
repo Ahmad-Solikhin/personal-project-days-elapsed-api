@@ -1,5 +1,3 @@
-import {logger} from "../application/logging.js";
-import {getCurrentDate} from "../util/get-current-date.js";
 import userService from "../service/user-service.js";
 
 const register = async (req, res, next) => {
@@ -9,7 +7,6 @@ const register = async (req, res, next) => {
             data: result
         });
     } catch (e) {
-        logger.info(`${getCurrentDate()} unsuccessful register user`);
         next(e);
     }
 

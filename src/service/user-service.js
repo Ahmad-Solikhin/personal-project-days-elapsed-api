@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import {v4 as uuid} from "uuid"
 import {logger} from "../application/logging.js";
 import {getCurrentDate} from "../util/get-current-date.js";
-import {sendEmail} from "./email.service.js";
+import {sendEmail} from "./email-service.js";
 
 const register = async (request) => {
     let userRequest = validate(registerUserValidation, request);
@@ -45,7 +45,7 @@ const register = async (request) => {
     logger.info(`${getCurrentDate()} Success register user ${user.username}`);
 
     //Todo : Send email with email token to verify user
-    sendEmail(user.email, user.email_token);
+    sendEmail(user.email, user.username, user.email_token);
 
     return user
 }
