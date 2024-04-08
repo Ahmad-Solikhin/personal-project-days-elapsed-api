@@ -1,10 +1,11 @@
 import {web} from "./application/web.js";
-import {logger} from "./application/logging.js";
 import moment from "moment-timezone";
-import {getCurrentDate} from "./util/get-current-date.js";
+import {loggerInfo} from "./util/logging-util.js";
+import {schedulerJob} from "./service/cron-service.js";
 
 const port = process.env.PORT_APPLICATION;
-moment.tz.setDefault("Asia/Jakarta");
+moment.tz.setDefault(process.env.TZ);
+schedulerJob;
 web.listen(port, () => {
-    logger.info(`${getCurrentDate()} App listen in port ${port}`);
+    loggerInfo(`App listen in port ${port}`);
 });
